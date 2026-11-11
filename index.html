@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Munch Math</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#3b2a8c;--bg2:#5b3fd1;--card:#fff7e6;--ink:#2a1a63;--sun:#ffd23f;--mint:#2ec4a6;--oops:#ff4f7b;--soft:#e9dfc6;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1c1450;--bg2:#33258a;--card:#2b2266;--ink:#fff3d6;--soft:#43388c}}
+:root[data-theme="dark"]{--bg:#1c1450;--bg2:#33258a;--card:#2b2266;--ink:#fff3d6;--soft:#43388c}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font-family:'Fredoka',ui-rounded,'Trebuchet MS',system-ui,sans-serif;color:var(--ink);background:radial-gradient(circle at 20% 0%,var(--bg2),var(--bg) 70%);background-color:var(--bg)}
+main{max-width:560px;margin:0 auto;padding:14px 16px 32px}
+h1{font-size:2.4rem;margin:0;color:#fff;font-weight:700;text-align:center}
+.sub{color:#fff;text-align:center;margin:2px 0 8px;font-size:1.1rem;opacity:.9}
+.card{background:var(--card);border-radius:28px;padding:18px;box-shadow:0 8px 0 rgba(0,0,0,.22)}
+.mon{display:block;width:150px;margin:0 auto}
+.mon.bounce{animation:bounce .5s}.mon.shake{animation:shake .4s}
+@keyframes bounce{30%{transform:translateY(-22px) scale(1.06)}60%{transform:translateY(0) scale(.96)}}
+@keyframes shake{25%{transform:translateX(-10px)}75%{transform:translateX(10px)}}
+.tb{display:flex;gap:8px;justify-content:space-between;align-items:center;color:#fff;font-weight:600;margin-bottom:6px}
+.pill{font:inherit;border:0;background:rgba(255,255,255,.2);color:#fff;border-radius:99px;padding:8px 14px;cursor:pointer;font-size:1rem}
+.chips{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
+.chip{font:inherit;font-weight:600;font-size:1.05rem;border:3px solid transparent;border-radius:16px;padding:10px;background:rgba(255,255,255,.18);color:#fff;cursor:pointer}
+.chip.on{background:var(--sun);color:#2a1a63;border-color:#fff}
+.ops{display:grid;gap:10px}
+.op{font:inherit;font-size:1.4rem;font-weight:600;border:0;border-radius:22px;padding:14px 16px;color:#fff;cursor:pointer;box-shadow:0 6px 0 rgba(0,0,0,.25);display:flex;justify-content:space-between;align-items:center}
+.op:active,.ans:active,.btn:active{transform:translateY(4px);box-shadow:0 2px 0 rgba(0,0,0,.25)}
+.op small{font-size:.95rem;font-weight:400}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:10px;color:#fff;font-weight:600}
+.bar{flex:1;height:16px;border-radius:99px;background:rgba(255,255,255,.25);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--sun);border-radius:99px;transition:width .4s}
+.q{font-size:clamp(1.8rem,9vw,3rem);font-weight:700;text-align:center;margin:6px 0 2px}
+.qs{display:block;font-size:1.3rem}
+.clock{width:150px;display:block;margin:0 auto 4px}
+.say{text-align:center;min-height:1.6em;font-size:1.2rem;font-weight:600;margin:0 0 10px}
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ans{font:inherit;font-size:1.9rem;font-weight:700;border:0;border-radius:20px;padding:14px 4px;background:var(--sun);color:#2a1a63;cursor:pointer;box-shadow:0 6px 0 rgba(0,0,0,.25);min-height:68px}
+.ans.sm{font-size:1.3rem}
+.ans.bad{background:var(--oops);color:#fff;opacity:.6}.ans.good{background:var(--mint);color:#fff}
+.dots{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;margin-top:10px}
+.dots b{width:14px;height:14px;border-radius:50%;background:var(--mint)}
+.dots b.two{background:var(--oops)}.dots b.gone{background:var(--soft);outline:2px dashed var(--oops)}
+.dots em{flex-basis:100%;height:0}
+.ht{margin:6px 0 0;text-align:center;font-weight:600}
+.fr{white-space:nowrap}.fr sup,.fr sub{font-size:.62em}
+.streak{color:#fff;text-align:center;margin-top:12px;font-weight:600;min-height:1.5em}
+.stars{font-size:3rem;text-align:center;letter-spacing:6px}
+.big{font-size:1.35rem;text-align:center;margin:6px 0 12px;font-weight:600}
+.row{display:grid;gap:10px}
+.btn{font:inherit;font-size:1.2rem;font-weight:700;border:0;border-radius:20px;padding:12px;background:var(--mint);color:#fff;cursor:pointer;box-shadow:0 6px 0 rgba(0,0,0,.25)}
+.btn.alt{background:#5b8cff}.btn.off{background:var(--soft);color:var(--ink);box-shadow:none}
+.shop{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.sk{background:var(--card);border-radius:22px;padding:10px;text-align:center;font-weight:600;box-shadow:0 6px 0 rgba(0,0,0,.22)}
+.sk .mon{width:100px}.sk .btn{width:100%;margin-top:6px;font-size:1rem;padding:8px}
+.conf{position:fixed;left:50%;top:40%;font-size:1.8rem;pointer-events:none;animation:fly 1s ease-out forwards}
+@keyframes fly{to{transform:translate(var(--x),var(--y)) rotate(360deg);opacity:0}}
+button:focus-visible{outline:4px solid #fff;outline-offset:3px}
+@media (prefers-reduced-motion:reduce){.mon.bounce,.mon.shake,.conf{animation:none}}
+</style>
+</head>
+<body>
+<main id="app"></main>
+<script>
+var app=document.getElementById('app');
+var P={band:'k',cookies:0,owned:[0],sel:0,best:{},mute:false};
+try{var sv=JSON.parse(localStorage.getItem('mm2')||'{}');for(var k in sv)P[k]=sv[k]}catch(e){}
+function save(){try{localStorage.setItem('mm2',JSON.stringify(P))}catch(e){}}
+var BANDS={l:{n:'Ages 5–7',base:1,g:['add','sub','time','frac']},k:{n:'Ages 8–10',base:2,g:['add','sub','mul','div','frac','time']},t:{n:'Ages 11–13',base:3,g:['mul','div','frac','alg']},o:{n:'Ages 14+',base:4,g:['alg','trig','calc']}};
+var G={add:['+ Adding','#2ec4a6'],sub:['− Taking away','#5b8cff'],mul:['× Times','#ff7a59'],div:['÷ Sharing (division)','#b066ff'],frac:['½ Fractions','#e8458f'],time:['🕒 Telling time','#e0a000'],alg:['x Algebra','#2a9d8f'],trig:['∠ Trigonometry','#5b3fd1'],calc:['∫ Calculus','#d6453d']};
+var SK=[{n:'Munchy',c:'#ff7a59',d:'#e55b3a',a:'',cost:0},
+{n:'Blueberry',c:'#5b8cff',d:'#3a5fd1',a:'<g fill="none" stroke="#2a1a63" stroke-width="5"><circle cx="72" cy="88" r="23"/><circle cx="128" cy="88" r="23"/><path d="M95 88h10"/></g>',cost:20},
+{n:'Sprout',c:'#2ec4a6',d:'#1a9a82',a:'<path d="M100 40 Q100 12 130 10 Q130 36 100 40Z" fill="#137a3a" stroke="#0d5a2a" stroke-width="3"/>',cost:40},
+{n:'Bubblegum',c:'#ff8ad4',d:'#e05fb5',a:'<path d="M100 42 L70 26 L70 58Z M100 42 L130 26 L130 58Z" fill="#ffd23f" stroke="#2a1a63" stroke-width="3"/><circle cx="100" cy="42" r="7" fill="#ff4f7b"/>',cost:70},
+{n:'Cosmo',c:'#9b6bff',d:'#6f43d6',a:'<path d="M100 40 V14" stroke="#2a1a63" stroke-width="5"/><circle cx="100" cy="12" r="9" fill="#ffd23f"/>',cost:110},
+{n:'King Goldie',c:'#ffc531',d:'#e0a000',a:'<path d="M64 46 L72 14 L88 34 L100 10 L112 34 L128 14 L136 46Z" fill="#e8453c" stroke="#2a1a63" stroke-width="3"/>',cost:160}];
+/* sound */
+var AC;function tone(f,t,d,ty,v){if(P.mute)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();var o=AC.createOscillator(),g=AC.createGain(),n=AC.currentTime+t;o.type=ty||'sine';o.frequency.value=f;g.gain.setValueAtTime(v||.15,n);g.gain.exponentialRampToValueAtTime(.001,n+d);o.connect(g);g.connect(AC.destination);o.start(n);o.stop(n+d)}catch(e){}}
+function seq(a,d,ty){a.forEach(function(f,i){tone(f,i*d,d*2,ty||'triangle')})}
+var snd={tap:function(){tone(440,0,.06,'square',.05)},ok:function(){tone(110,0,.09,'square',.1);seq([523,659,784],.08)},no:function(){tone(170,0,.25,'sawtooth',.07)},win:function(){seq([523,659,784,1047,784,1047],.11)},buy:function(){seq([880,1175,1568],.07)}};
+/* helpers */
+function R(a,b){return a+Math.floor(Math.random()*(b-a+1))}
+function sh(a){return a.sort(function(){return Math.random()-.5})}
+function s(n){return n<0?'−'+(-n):''+n}
+function F(a,b){return '<span class="fr"><sup>'+a+'</sup>⁄<sub>'+b+'</sub></span>'}
+function fmt(t){var m=/^(\d+)\/(\d+)$/.exec(t);return m?F(m[1],m[2]):t}
+function nw(n,neg){return [n+1,n-1,n+2,n-2,n+10,n-10,n+3,n-3].filter(function(x){return x!==n&&(neg||x>=0)}).map(s)}
+function dots(a,c){return Array(a+1).join('<b class="'+(c||'')+'"></b>')}
+function tm(c,p){return(c===1?'':c)+'x'+(p===1?'':'<sup>'+p+'</sup>')}
+function ht(t){return '<p class="ht">'+t+'</p>'}
+function clock(h,m){var ha=((h%12)*30+m/2)*Math.PI/180,ma=m*6*Math.PI/180,t='';
+for(var i=1;i<=12;i++){var a=i*Math.PI/6;t+='<text x="'+(60+44*Math.sin(a)).toFixed(1)+'" y="'+(64-44*Math.cos(a)).toFixed(1)+'" text-anchor="middle" font-size="11" font-weight="700" fill="#2a1a63">'+i+'</text>'}
+return '<svg viewBox="0 0 120 120" class="clock"><circle cx="60" cy="60" r="56" fill="#fff" stroke="#2a1a63" stroke-width="5"/>'+t+'<line x1="60" y1="60" x2="'+(60+28*Math.sin(ha)).toFixed(1)+'" y2="'+(60-28*Math.cos(ha)).toFixed(1)+'" stroke="#ff4f7b" stroke-width="6" stroke-linecap="round"/><line x1="60" y1="60" x2="'+(60+42*Math.sin(ma)).toFixed(1)+'" y2="'+(60-42*Math.cos(ma)).toFixed(1)+'" stroke="#2a1a63" stroke-width="4" stroke-linecap="round"/><circle cx="60" cy="60" r="4" fill="#2a1a63"/></svg>'}
+/* monster */
+function monster(mood,idx,id){var k=SK[idx]||SK[0];
+var m={happy:'<path d="M70 125 Q100 152 130 125" fill="none" stroke="#2a1a63" stroke-width="7" stroke-linecap="round"/>',munch:'<path d="M66 118 Q100 190 134 118 Z" fill="#2a1a63"/><path d="M84 150 Q100 136 116 150 Q100 166 84 150Z" fill="#ff4f7b"/>',oops:'<path d="M80 142 Q100 124 120 142" fill="none" stroke="#2a1a63" stroke-width="7" stroke-linecap="round"/>'}[mood];
+return '<svg '+(id?'id="'+id+'" ':'')+'class="mon" viewBox="0 0 200 200" aria-hidden="true"><circle cx="52" cy="48" r="16" fill="'+k.d+'"/><circle cx="148" cy="48" r="16" fill="'+k.d+'"/><ellipse cx="100" cy="112" rx="80" ry="74" fill="'+k.c+'"/><circle cx="72" cy="88" r="19" fill="#fff"/><circle cx="128" cy="88" r="19" fill="#fff"/><circle cx="75" cy="90" r="9" fill="#2a1a63"/><circle cx="125" cy="90" r="9" fill="#2a1a63"/><circle cx="48" cy="120" r="9" fill="#ff4f7b" opacity=".5"/><circle cx="152" cy="120" r="9" fill="#ff4f7b" opacity=".5"/>'+m+k.a+'</svg>'}
+/* question generators: {q,ans,w,h} */
+var gen={
+add:function(l){var m=2+l*4,a=R(1,m),b=R(1,m);return{q:a+' + '+b+' = ?',ans:s(a+b),w:nw(a+b),h:a+b<=40?dots(a)+dots(b,'two'):''}},
+sub:function(l){var m=3+l*4,a=R(3,m),b=R(1,a-1);return{q:a+' − '+b+' = ?',ans:s(a-b),w:nw(a-b),h:a<=40?dots(a-b)+dots(b,'gone'):''}},
+mul:function(l){var a=R(2,Math.min(2+l,10)),b=R(2,Math.min(3+l*2,12)),n=a*b,h='';for(var i=0;i<a;i++)h+=dots(b)+'<em></em>';return{q:a+' × '+b+' = ?',ans:s(n),w:nw(n).concat([s(n+a),s(n-b)]),h:h}},
+div:function(l){var b=R(2,Math.min(1+l*2,12)),c=R(2,Math.min(2+l*2,12)),a=b*c;return{q:a+' ÷ '+b+' = ?',ans:s(c),w:nw(c).concat([s(b)]),h:ht('Think: '+b+' × ? = '+a)}},
+frac:function(l,bd){
+ if(bd==='l'){var hf=R(0,1),n=R(1,6)*4,d=hf?2:4;return{q:(hf?'Half':'A quarter')+' of '+n+' = ?',ans:s(n/d),w:nw(n/d),h:ht('Split '+n+' into '+d+' equal groups.')}}
+ if(bd==='k'){var d2=R(4,10),a=R(2,d2-3),b=R(1,d2-a-1),p=R(0,1),t=p?a+b:a;
+  return{q:p?F(a,d2)+' + '+F(b,d2)+' = ?':F(a+b,d2)+' − '+F(b,d2)+' = ?',ans:t+'/'+d2,w:[(t+1)+'/'+d2,(t-1)+'/'+d2,t+'/'+(d2*2),t+'/'+(d2+1)],h:ht('The bottom number stays the same. Just add or take away the tops.')}}
+ var L=[[1,2],[1,3],[2,3],[3,4],[2,5],[3,5],[1,4],[3,8],[5,6]][R(0,8)],g=R(2,5),pp=L[0],qq=L[1];
+ return{q:'Simplify '+F(pp*g,qq*g),ans:pp+'/'+qq,w:[pp+'/'+(qq+1),(pp+1)+'/'+qq,(pp*g-1)+'/'+(qq*g),pp+'/'+(qq*g)],h:ht('Divide the top and bottom by the same number: '+g+'.')}},
+time:function(l,bd){var h=R(1,12),m=bd==='l'?30*R(0,1):5*R(0,11);
+ var f=function(H,M){return H+':'+(M<10?'0'+M:M)},hh=function(x){return(x+11)%12+1};
+ return{q:clock(h,m)+'<span class="qs">What time is it?</span>',ans:f(h,m),w:[f(hh(h+1),m),f(hh(h-1),m),f(h,(m+30)%60),f(h,(m+5)%60),f(m/5||12,h*5%60)],h:ht('The short hand shows the hour. The long hand shows minutes: each number is 5 more minutes.')}},
+alg:function(l,bd){
+ if(bd==='t'){var t=R(0,Math.min(2,l-2)),x,a,b,q;
+  if(t===0){x=R(1,12);a=R(1,15);q='x + '+a+' = '+(x+a)}
+  else if(t===1){a=R(2,9);x=R(2,12);q=a+'x = '+a*x}
+  else{a=R(2,9);x=R(1,10);b=R(1,20);q=a+'x + '+b+' = '+(a*x+b)}
+  return{q:q,ans:s(x),w:nw(x),h:ht('Undo each step, one at a time, until x is alone.')}}
+ if(R(0,2)===0){var k=R(2,12);return{q:'x² = '+k*k,ans:'±'+k,w:[''+k,'−'+k,'±'+(k+1),'±'+(k-1)],h:ht('A positive times a positive and a negative times a negative both make a positive.')}}
+ var a2=R(2,9),x2=R(-10,10)||3,b2=R(-15,15)||4,c=a2*x2+b2;
+ return{q:a2+'x '+(b2<0?'− '+(-b2):'+ '+b2)+' = '+s(c),ans:s(x2),w:nw(x2,1).concat([s(-x2)]),h:ht('Move the number away from x first, then divide by '+a2+'.')}},
+trig:function(l){var T={sin:['0','1⁄2','√2⁄2','√3⁄2','1'],cos:['1','√3⁄2','√2⁄2','1⁄2','0'],tan:['0','√3⁄3','1','√3']},fn=['sin','cos','tan'][R(0,l>=5?2:1)],i=R(0,fn==='tan'?3:4);
+ return{q:fn+' '+[0,30,45,60,90][i]+'° = ?',ans:T[fn][i],w:['0','1⁄2','√2⁄2','√3⁄2','1','√3⁄3','√3'],h:ht('Sine climbs 0, ½, √2⁄2, √3⁄2, 1 as the angle grows. Cosine goes backwards.')}},
+calc:function(l){var t=l>=5?R(0,2):0;
+ if(t===0){var a=R(2,9),n=R(2,5);return{q:'d/dx ('+tm(a,n)+')',ans:tm(a*n,n-1),w:[tm(a*n,n),tm(a,n-1),tm(a*n+1,n-1),tm(a*(n-1),n-1),tm(a*n,n+1)],h:ht('Power rule: bring the power down to multiply, then lower the power by 1.')}}
+ if(t===1){var n2=R(1,4),k=R(1,6);return{q:'∫ '+tm(k*(n2+1),n2)+' dx',ans:tm(k,n2+1)+' + C',w:[tm(k,n2)+' + C',tm(k*(n2+1),n2+1)+' + C',tm(k,n2+1),tm(k+1,n2+1)+' + C'],h:ht('Raise the power by 1, divide by the new power, and don’t forget + C.')}}
+ var D=[['sin x','cos x'],['cos x','−sin x'],['eˣ','eˣ'],['ln x','1⁄x']],d=D[R(0,3)];
+ return{q:'d/dx ('+d[0]+')',ans:d[1],w:['cos x','−sin x','eˣ','1⁄x','sin x','−cos x'],h:ht('These four are worth remembering: sin → cos → −sin, eˣ stays eˣ, ln x → 1⁄x.')}}};
+function build(){var o=gen[S.g](S.lvl,P.band),seen={},w=[];o.w.forEach(function(x){if(x!==o.ans&&!seen[x]&&x!==''&&x.indexOf('NaN')<0){seen[x]=1;w.push(x)}});
+ o.opts=sh([o.ans].concat(sh(w).slice(0,3)));return o}
+/* screens */
+var S={};
+function bar(){return '<div class="tb"><span>🍪 '+P.cookies+'</span><span><button class="pill" id="mute" aria-label="Sound">'+(P.mute?'🔇':'🔊')+'</button> <button class="pill" id="shop">👕 Monsters</button></span></div>'}
+function wireBar(){document.getElementById('mute').onclick=function(){P.mute=!P.mute;save();snd.tap();home()};document.getElementById('shop').onclick=function(){snd.tap();shop()}}
+function home(){var B=BANDS[P.band];
+ app.innerHTML=bar()+'<h1>Munch Math</h1><p class="sub">Feed the monster the right answer!</p>'+monster('happy',P.sel)+
+ '<div class="chips">'+Object.keys(BANDS).map(function(k){return '<button class="chip'+(k===P.band?' on':'')+'" data-b="'+k+'">'+BANDS[k].n+'</button>'}).join('')+'</div>'+
+ '<div class="ops">'+B.g.map(function(g){var b=P.best[P.band+g];return '<button class="op" style="background:'+G[g][1]+'" data-g="'+g+'"><span>'+G[g][0]+'</span><small>'+(b?'⭐'.repeat(b):'Play')+'</small></button>'}).join('')+'</div>';
+ wireBar();
+ [].forEach.call(app.querySelectorAll('.chip'),function(b){b.onclick=function(){P.band=b.dataset.b;save();snd.tap();home()}});
+ [].forEach.call(app.querySelectorAll('.op'),function(b){b.onclick=function(){start(b.dataset.g)}});}
+function start(g){snd.tap();var base=BANDS[P.band].base;S={g:g,i:0,score:0,streak:0,lvl:base,max:base+2,o:null,tries:0,locked:false};next()}
+function next(){if(S.i>=10)return end();S.o=build();S.tries=0;S.locked=false;draw('happy','What’s the answer?','')}
+function draw(mood,say,hint){var o=S.o;
+ app.innerHTML='<div class="top"><button class="pill" id="back">← Home</button><div class="bar"><i style="width:'+(S.i*10)+'%"></i></div><span>'+S.i+'/10</span></div>'+
+ '<div class="card">'+monster(mood,P.sel,'mon')+'<div class="q">'+o.q+'</div><p class="say" id="say">'+say+'</p><div class="answers">'+
+ o.opts.map(function(v,i){return '<button class="ans'+(v.length>9?' sm':'')+'" data-i="'+i+'">'+fmt(v)+'</button>'}).join('')+'</div><div class="dots" id="dots">'+(hint||'')+'</div></div><div class="streak">'+(S.streak>=2?'🔥 '+S.streak+' in a row!':'')+'</div>';
+ document.getElementById('back').onclick=home;
+ [].forEach.call(app.querySelectorAll('.ans'),function(b){b.onclick=function(){pick(+b.dataset.i,b)}})}
+var CH=['Yum! 🍪','Nom nom nom!','Delicious!','Yes! You’re so smart!','Super munch!'];
+function pick(i,btn){if(S.locked)return;
+ if(S.o.opts[i]===S.o.ans){S.locked=true;if(S.tries===0)S.score++;S.streak++;if(S.streak%3===0&&S.lvl<S.max)S.lvl++;
+  btn.classList.add('good');setMood('munch','bounce');snd.ok();document.getElementById('say').textContent=CH[R(0,4)];confetti();S.i++;setTimeout(next,1100)}
+ else{S.tries++;S.streak=0;btn.classList.add('bad');btn.disabled=true;setMood('oops','shake');snd.no();
+  document.getElementById('say').textContent='Not that one. Try again!';document.getElementById('dots').innerHTML=S.o.h}}
+function setMood(m,c){var old=document.getElementById('mon'),t=document.createElement('div');t.innerHTML=monster(m,P.sel,'mon');var n=t.firstChild;n.setAttribute('class','mon '+c);old.parentNode.replaceChild(n,old)}
+function confetti(){var E=['⭐','🎉','✨','🍪','💜'];for(var i=0;i<12;i++){var e=document.createElement('span');e.className='conf';e.textContent=E[i%5];e.style.setProperty('--x',R(-160,160)+'px');e.style.setProperty('--y',R(-200,120)+'px');document.body.appendChild(e);setTimeout(function(x){x.remove()},1000,e)}}
+function end(){var st=S.score>=9?3:S.score>=7?2:S.score>=5?1:0,key=P.band+S.g,aw=S.score+st*5;
+ if(st>(P.best[key]||0))P.best[key]=st;P.cookies+=aw;save();
+ var msg=['Good try! Practice makes it easier.','Nice work!','Awesome job!','Perfect! Math champion!'][st];
+ app.innerHTML='<h1>All done!</h1>'+monster(st?'munch':'happy',P.sel)+'<div class="card" style="margin-top:12px"><div class="stars">'+(st?'⭐'.repeat(st):'💪')+'</div><p class="big">'+S.score+' of 10 on the first try</p><p class="big">'+msg+'<br>You won '+aw+' 🍪</p><div class="row"><button class="btn" id="again">Play again</button><button class="btn alt" id="shop2">Visit monsters</button><button class="btn alt" id="menu">Pick a new game</button></div></div>';
+ document.getElementById('again').onclick=function(){start(S.g)};document.getElementById('menu').onclick=home;document.getElementById('shop2').onclick=shop;
+ snd.win();if(st)confetti()}
+function shop(){
+ app.innerHTML='<div class="top"><button class="pill" id="back">← Home</button><span style="flex:1"></span><span>🍪 '+P.cookies+'</span></div><h1 style="margin-bottom:12px">Monster closet</h1><div class="shop">'+
+ SK.map(function(k,i){var own=P.owned.indexOf(i)>=0,on=P.sel===i;
+  return '<div class="sk">'+monster('happy',i)+'<div>'+k.n+'</div><button class="btn'+(on?' off':own?' alt':P.cookies<k.cost?' off':'')+'" data-i="'+i+'">'+(on?'Wearing':own?'Use':'Buy · '+k.cost+' 🍪')+'</button></div>'}).join('')+'</div>';
+ document.getElementById('back').onclick=home;
+ [].forEach.call(app.querySelectorAll('.sk .btn'),function(b){b.onclick=function(){var i=+b.dataset.i;
+  if(P.owned.indexOf(i)<0){if(P.cookies<SK[i].cost){snd.no();return}P.cookies-=SK[i].cost;P.owned.push(i);snd.buy()}else snd.tap();
+  P.sel=i;save();shop()}})}
+home();
+</script>
+</body>
+</html>
